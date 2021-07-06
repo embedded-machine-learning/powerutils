@@ -29,4 +29,4 @@ Licence
 Authors
 -------
 
-`powerutils` was written by `Matthias Wess <cdleml@tuwien.ac.at>`_.
+`powerutils` was written by `CDL EML <cdleml@tuwien.ac.at>`_.
