@@ -177,7 +177,7 @@ class power_measurement():
         print("Power measurement ended")
         self.bench_over = True
 
-    def end_bench(self, b_val):
+    def end_gather(self, b_val):
         # calling this function with a True ends the data acquisition
         if self.dev_init:
             self.bench_end = b_val
@@ -206,5 +206,5 @@ if __name__ == "__main__":
 
     from time import sleep
     sleep(2)
-    pm.end_bench(True)
+    pm.end_gather(True)
     print("Finished")
