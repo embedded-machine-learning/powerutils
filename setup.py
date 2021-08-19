@@ -17,7 +17,7 @@ setup(
     name="powerutils",
     version="0.1.0",
     url="https://github.com/embedded-machine-learning/powerutils",
-    license='MIT',
+    license='Apache 2.0',
 
     author="Matthias Wess",
     author_email="cdleml@tuwien.ac.at",

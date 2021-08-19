@@ -16,7 +16,7 @@ def running_mean(x, N):
     cumsum = np.cumsum(np.insert(x, 0, 0)) 
     return (cumsum[N:] - cumsum[:-N]) / float(N)
 
-def detect_end(data, sample=100, thresh=0.2):
+def detect_end(data, sample=100, thresh=0.2, vis=False):
     """Detect the first sample in the data .
 
     Args:
@@ -32,8 +32,9 @@ def detect_end(data, sample=100, thresh=0.2):
     logging.debug("MIN %s" % min)
     data_new = data #- min
     data_rev = np.flip(data_new,0)
-    plt.plot(data_rev)
-    plt.show()
+    if vis:
+        plt.plot(data_rev)
+        plt.show()
     end = np.argmax(data_rev > thresh)
     end = len(data_rev)-end
     logging.debug("Last sample %s" % end)
@@ -111,7 +112,7 @@ def read_analyis_report(report):
     return data
 
 
-def extract_power_profile(power_file, power_path, execution_time, sample_rate=500, start_thresh=0.6, end_thresh=0.6, peak_thresh=0.6):
+def extract_power_profile(power_file, power_path, execution_time, sample_rate=500, start_thresh=0.6, end_thresh=0.6, peak_thresh=0.6, multiplier=50., vis=False):
     """AI is creating summary for extract_power_profile
 
     Args:
@@ -126,19 +127,21 @@ def extract_power_profile(power_file, power_path, execution_time, sample_rate=50
 
     downsample = 1
     samplerate = sample_rate/downsample
-    data = np.load(Path(power_path, power_file))
+    data = np.load(Path(power_path, power_file))*multiplier
     data = data[::downsample]
     norm = (data - np.min(data))/np.ptp(data)
     norm = (data )/np.max(data)
 
-    plt.plot(norm)
-    plt.show()
+    if vis:
+        plt.plot(norm)
+        plt.show()
     
     start = detect_start(norm,thresh=start_thresh)
     end = detect_end(norm,thresh=end_thresh)
     data2 = data[start:end]
-    plt.plot(data2)
-    plt.show()
+    if vis:
+        plt.plot(data2)
+        plt.show()
 
     samples = int(samplerate*execution_time)
     #logging.debug('samples',samples)
@@ -159,9 +162,10 @@ def extract_power_profile(power_file, power_path, execution_time, sample_rate=50
     logging.debug(sort_top)
     logging.debug(peaks)
     logging.debug(samples)
-    plt.plot(sort_top, window[sort_top], "x")
-    plt.plot(window)
-    plt.show()
+    if vis:
+        plt.plot(sort_top, window[sort_top], "x")
+        plt.plot(window)
+        plt.show()
     if len(peaks) == 0:
         peaks = [np.max(window)]
 
@@ -209,11 +213,11 @@ def unite_latency_power(layer_times, power_file, power_path, sample_rate = 500, 
 
     return layer_times
 
-def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 500, rate_div=1):
+def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 500, rate_div=1, multiplier=50.):
     
         
     duration = np.sum(layer_times['measured'])
-    power = extract_power_profile(power_file, power_path, duration, sample_rate)
+    power = extract_power_profile(power_file, power_path, duration, sample_rate, multiplier=multiplier)
     times = np.cumsum(layer_times['measured'].to_numpy())
     names = layer_times['name'].to_numpy()
     logging.debug("SAMPLES")
@@ -235,5 +239,5 @@ def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 
     layer_times['mult (Vs)'] = layer_times['measured']*layer_times['mean (V)']
     layer_times['samples'] = layer_times['name'].map(length)
 
-    return layer_times
+    return layer_times, power
 # %%
