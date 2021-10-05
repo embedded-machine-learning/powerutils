@@ -38,7 +38,7 @@ duration = 171
 ncs2_measured = ncs2_parser.extract_data_from_ncs2_report(latency_path, latency_path, latency_file, format="pickle")
 ncs2_results = utils.ncs2_to_format(ncs2_measured)
 total_result = processing.extract_power_profile(power_file, power_path, duration, sample_rate = rate)
-result = processing.unite_latency_power_meas(ncs2_results, power_file, power_path, sample_rate = 500)
+result = processing.unite_latency_power_meas(ncs2_results, power_file, power_path, sample_rate = rate)
 # %%
 total_result = total_result*50
 print(len(total_result))

@@ -1,0 +1,23 @@
+{
+    "TestScenario.MultiStream": {
+        "accuracy": 71.09375,
+        "count": 128,
+        "good_items": 91,
+        "mean": 0.11162930727005005,
+        "percentiles": {
+            "50.0": 0.1309049129486084,
+            "80.0": 0.13378257751464845,
+            "90.0": 0.14036378860473625,
+            "95.0": 0.1565367817878723,
+            "99.0": 0.17766332626342773,
+            "99.9": 0.1971855528354649
+        },
+        "qps": 259.2869064367393,
+        "took": 0.49366164207458496,
+        "total_items": 128
+    },
+    "cmdline": "Namespace(accuracy=True, backend='tflite_coral', cache=0, count=128, data_format=None, dataset='imagenet_mobilenet_quant', dataset_list=None, dataset_path='/home/intel-nuc/powerutils/coral/coral_dataset/ILSVRC2012_img_val', debug=False, find_peak_performance=False, inputs=['input:0'], max_batchsize=1, max_latency=None, measure=False, mlperf_conf='/home/intel-nuc/mlperf/mlperf.conf', model='/home/intel-nuc/powerutils/coral/coral_models/inception_v1_224_quant_edgetpu.tflite', model_name='mobilenet', output='output', outputs=['MobilenetV1/Predictions/Reshape_1:0'], profile='mobilenet_coral', qps=None, samples_per_query=128, scenario='MultiStream', threads=8, time=None, user_conf='/home/intel-nuc/mlperf/vision/classification_and_detection/user.conf')",
+    "runtime": "tflite_coral",
+    "time": 1631019633,
+    "version": "2.5.0.post1/a4dfb8d1a71385bd6d122e4f27f86dcebb96712d"
+}
