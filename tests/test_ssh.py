@@ -8,7 +8,7 @@ ssh_command_runOnTX2 = "/media/cdleml/128GB/Users/lsteindl/masterthesis/runOnTx2
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy)
 client.connect(ssh_ip, username=ssh_username)
-stdin, stdout, stderr = client.exec_command(ssh_command_runOnTX2)
+stdin, stdout, stderr = client.exec_command(ssh_command_stress)
 
 for line in stdout:
     try:

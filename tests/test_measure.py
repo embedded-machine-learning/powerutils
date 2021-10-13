@@ -1,6 +1,8 @@
 # port 0 - NCS2
 # port 1 - Jetson TX2
-# port 2 -
+# port 2 - Edge TPU
+# port 3 - ZCU102
+# future ports reserved for: Jetson Xavier, Jetson Nano, Pybadge, Raspberry Pi
 
 from powerutils import measurement
 import time, os, paramiko
@@ -83,7 +85,7 @@ def test_cf_tf_ssd_voc_300_300():
 def test_coral_mobilenetv1(query):
     print("EDGE TPU measurement")
 
-    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60)
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=2)
     test_kwargs = {"model_name": "coral_test_mobilenetv1_224", "query": query}
     pm.start_gather(test_kwargs)
 
@@ -93,7 +95,7 @@ def test_coral_mobilenetv1(query):
     "--profile mobilenet_coral " +
     "--mlperf_conf /home/intel-nuc/mlperf/mlperf.conf " +
     "--user_conf /home/intel-nuc/mlperf/vision/classification_and_detection/user.conf " +
-    "--accuracy --count 100 " +
+    "--accuracy --count 10 " +
     "--samples-per-query " + str(query))
 
     # start inference
@@ -107,7 +109,7 @@ def test_coral_mobilenetv1(query):
 def test_coral_inceptionv1(query):
     print("EDGE TPU measurement")
 
-    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60)
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=2)
     test_kwargs = {"model_name": "coral_test_inceptionv1_224", "query": query}
     pm.start_gather(test_kwargs)
 
@@ -117,7 +119,7 @@ def test_coral_inceptionv1(query):
     "--profile mobilenet_coral " +
     "--mlperf_conf /home/intel-nuc/mlperf/mlperf.conf " +
     "--user_conf /home/intel-nuc/mlperf/vision/classification_and_detection/user.conf " +
-    "--accuracy --count " + str(query) + " "
+    "--accuracy --count 10 "
     "--samples-per-query " + str(query))
 
     # start inference
@@ -165,7 +167,7 @@ def test_inception_v1_224_quant():
 def test_tx2():
     print("testing power measurements on the TX2")
     pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=1000, port=1)
-    test_kwargs = {"model_name": "tx2", "info": "runOnTx2"}
+    test_kwargs = {"model_name": "tx2", "info": "evaltrt"}
     pm.start_gather(test_kwargs)
 
     # execute script on remote machine
@@ -200,6 +202,8 @@ def main():
     #test_coral_all()
     #test_inception_v1_224_quant()
     test_tx2()
+    #test_coral_mobilenetv1(1)
+    #test_coral_inceptionv1(1)
 
 if __name__ == "__main__":
     # run main
