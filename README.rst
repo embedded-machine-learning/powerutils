@@ -41,9 +41,9 @@ print("Finished")
 Installation
 ------------
 
-=, Clone the repository to your machine and navigate into it
--, git clone https://github.com/embedded-machine-learning/powerutils.git
--, cd powerutils
+-, Clone the repository to your machine and navigate into it
+^, git clone https://github.com/embedded-machine-learning/powerutils.git
+^, cd powerutils
 
 2. (OPTIONAL) Create a Python3 virtual environment and activate it
 2.1. $ python3 -m venv venv_powerutils
