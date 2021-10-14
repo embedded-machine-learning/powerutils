@@ -59,7 +59,7 @@ Requirements
 ^^^^^^^^^^^^
 
 Linux machine with Python3 installed (tested on Ubuntu 18.04 LTS)
-A Data Aqcuisition Card from https://www.mccdaq.com
+A Data Aqcuisition Card from `https://www.mccdaq.com`
 Python3 modules: uldaq, numpy, pandas, matplotlib
 OpenVino for the profiling of the Intel Neural Compute Stick 2
 TF Lite for profiling of the Google Edge TPU
