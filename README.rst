@@ -41,9 +41,9 @@ print("Finished")
 Installation
 ------------
 
-1. Clone the repository to your machine and navigate into it
-1.1. git clone https://github.com/embedded-machine-learning/powerutils.git
-1.2. cd powerutils
+-, Clone the repository to your machine and navigate into it
+^, git clone https://github.com/embedded-machine-learning/powerutils.git
+^, cd powerutils
 
 2. (OPTIONAL) Create a Python3 virtual environment and activate it
 2.1. $ python3 -m venv venv_powerutils
@@ -59,7 +59,7 @@ Requirements
 ^^^^^^^^^^^^
 
 Linux machine with Python3 installed (tested on Ubuntu 18.04 LTS)
-A Data Aqcuisition Card from https://www.mccdaq.com
+A Data Aqcuisition Card from `https://www.mccdaq.com`
 Python3 modules: uldaq, numpy, pandas, matplotlib
 OpenVino for the profiling of the Intel Neural Compute Stick 2
 TF Lite for profiling of the Google Edge TPU
