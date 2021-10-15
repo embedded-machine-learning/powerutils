@@ -13,13 +13,14 @@ except:
 
 
 class power_measurement():
-    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60):
+    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60, port=0):
         """Function for initializing default values for the DAQ-Device
 
         Args:
             sampling_rate: sampling rate in samples per second, maximum is 500000
             data_dir: name of the directory where the data files will be stored
             max_duration: maximal duration of the measurement in seconds
+            port: set the measurement channel to port (default=0)
         """
         self.dev_init = False
         if uldaq_import:
@@ -33,8 +34,8 @@ class power_measurement():
             self.data_dir = data_dir
 
             self.range_index = 0
-            self.low_channel = 0
-            self.high_channel = 0
+            self.low_channel = port
+            self.high_channel = port
             self.scan_options = ScanOption.CONTINUOUS
             self.flags = AInScanFlag.DEFAULT
 
@@ -197,7 +198,7 @@ class power_measurement():
 
 
 if __name__ == "__main__":
-    pm = power_measurement(sampling_rate=500000, data_dir = "data_dir", max_duration=60)
+    pm = power_measurement(sampling_rate=500000, data_dir = "data_dir", max_duration=60, port=0)
 
     #print(pm.__dict__)
     test_kwargs = {"model_name" : "awesome_model", "index_run" : 69, "api" : "async", "niter" : 420, "nireq" : 2, "batch" : 2}

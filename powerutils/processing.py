@@ -152,7 +152,7 @@ def extract_power_profile(power_file, power_path, execution_time, sample_rate=50
     #logging.debug("new start", new_start)
     data2 = norm[new_start:end]
     
-    window = running_mean(data2,samples)
+    window = running_mean(data2,samples+sample_rate) # make running window larger to better find the peaks
     window = (window - np.min(window))/np.ptp(window)
     peaks, l = find_peaks(window, height=peak_thresh, distance=samples)
     logging.debug(l['peak_heights'])
@@ -189,7 +189,7 @@ def unite_latency_power(layer_times, power_file, power_path, sample_rate = 500, 
     start = detect_start(data)
     layer_times = ncs2_results
         
-    times = np.cumsum(layer_times['measured'].to_numpy())
+    times = np.cumsum(layer_times['time(ms)'].to_numpy())
     names = layer_times['name'].to_numpy()
     res = cut_layers(data, start, times, names)
     mean = {}
@@ -207,18 +207,16 @@ def unite_latency_power(layer_times, power_file, power_path, sample_rate = 500, 
             sum[key] = np.sum(val)
     
 
-    layer_times['mean (V)'] = layer_times['name'].map(mean)
-    layer_times['sum (Vs)'] = layer_times['name'].map(sum)
-    layer_times['mult (Vs)'] = layer_times['measured']*layer_times['mean (V)']
+    layer_times['mean(W)'] = layer_times['name'].map(mean)
+    layer_times['sum(J)'] = layer_times['name'].map(sum)
+    layer_times['mult(J)'] = layer_times['time(ms)']*layer_times['mean(W)']
 
     return layer_times
 
-def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 500, rate_div=1, multiplier=50.):
-    
-        
-    duration = np.sum(layer_times['measured'])
-    power = extract_power_profile(power_file, power_path, duration, sample_rate, multiplier=multiplier)
-    times = np.cumsum(layer_times['measured'].to_numpy())
+def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 500, rate_div=1, multiplier=50.,vis=False):
+    duration = np.sum(layer_times['time(ms)'])
+    power = extract_power_profile(power_file, power_path, duration, sample_rate, multiplier=multiplier, vis=vis)
+    times = np.cumsum(layer_times['time(ms)'].to_numpy())
     names = layer_times['name'].to_numpy()
     logging.debug("SAMPLES")
     logging.debug(len(power))
@@ -234,9 +232,9 @@ def unite_latency_power_meas(layer_times, power_file, power_path, sample_rate = 
         sum[key] = np.sum(val)
         length[key] = len(val)
 
-    layer_times['mean (V)'] = layer_times['name'].map(mean)
-    layer_times['sum (Vs)'] = layer_times['name'].map(sum)/500*rate_div
-    layer_times['mult (Vs)'] = layer_times['measured']*layer_times['mean (V)']
+    layer_times['mean(W)'] = layer_times['name'].map(mean)
+    layer_times['sum(mJ)'] = layer_times['name'].map(sum)/sample_rate*rate_div
+    layer_times['mult(mJ)'] = layer_times['time(ms)']*layer_times['mean(W)']
     layer_times['samples'] = layer_times['name'].map(length)
 
     return layer_times, power
