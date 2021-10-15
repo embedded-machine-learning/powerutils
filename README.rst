@@ -18,7 +18,7 @@ Gathering data via predefined test cases in console (see script for available op
 
     python3 ./tests/test_measure.py
 
-Instantiation in code:
+Instantiation in code::
 
     from powerutils import measurement
 
@@ -42,22 +42,17 @@ Instantiation in code:
 Installation
 ------------
 
-This is a simple example::
-
-    import math
-    print 'import done'
-
-Clone the repository to your machine and navigate into it:
+Clone the repository to your machine and navigate into it::
 
     git clone https://github.com/embedded-machine-learning/powerutils.git
     cd powerutils
 
-(OPTIONAL) Create a Python3 virtual environment and activate it:
+(OPTIONAL) Create a Python3 virtual environment and activate it::
 
     python3 -m venv venv_powerutils
     source venv_powerutils/bin/activate
 
-Install powerutils locally and check the installation:
+Install powerutils locally and check the installation::
 
     pip3 install -e .
     python3 -c "import powerutils; help(powerutils)"
