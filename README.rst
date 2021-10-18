@@ -14,46 +14,50 @@ Power Utility Tools for DNN analysis
 Usage
 -----
 
-Gathering data via predefined test cases (see script for available options):
-$ python3 ./tests/test_measure.py
+Gathering data via predefined test cases in console (see script for available options)::
 
-Instantiation in code:
+    python3 ./tests/test_measure.py
 
-from powerutils import measurement
+Instantiation in code::
 
-# create instance of class
-pm = measurement.power_measurement(sampling_rate=500000, # set the sampling rate to whatever your device supports
-                                    data_dir = "./tmp", # pass the folder where data files will be saved
-                                    max_duration=60, # set the maximal duration of the gathering process [seconds]
-                                    port=0) # if your device has more than one port, choose the current port
+    from powerutils import measurement
 
-# define parameters for the name of the data file
-test_kwargs = {"model_name" : "awesome_model", "index_run" : 1, "my_parameter" : "some_value"}
+    # create instance of class
+    pm = measurement.power_measurement(sampling_rate=500000, # set the sampling rate to whatever your device supports
+                                        data_dir = "./tmp", # pass the folder where data files will be saved
+                                        max_duration=60, # set the maximal duration of the gathering process [seconds]
+                                        port=0) # if your device has more than one port, choose the current port
 
-pm.start_gather(test_kwargs) # start the data aquisition
+    # define parameters for the name of the data file
+    test_kwargs = {"model_name" : "awesome_model", "index_run" : 1, "my_parameter" : "some_value"}
 
-# here should be the inference on a platform
-from time import sleep; sleep(2); # or a sleep command to test the data gathering
+    pm.start_gather(test_kwargs) # start the data aquisition
 
-pm.end_gather(True) # ends the data gathering and writes it to a data (.dat) file
-print("Finished")
+    # here should be the inference on a platform
+    from time import sleep; sleep(2); # or a sleep command to test the data gathering
+
+    pm.end_gather(True) # ends the data gathering and writes it to a data (.dat) file
+    print("Finished")
 
 Installation
 ------------
 
--, Clone the repository to your machine and navigate into it
-^, git clone https://github.com/embedded-machine-learning/powerutils.git
-^, cd powerutils
+Clone the repository to your machine and navigate into it::
 
-2. (OPTIONAL) Create a Python3 virtual environment and activate it
-2.1. $ python3 -m venv venv_powerutils
-2.2. $ source venv_powerutils/bin/activate
+    git clone https://github.com/embedded-machine-learning/powerutils.git
+    cd powerutils
 
-3. Install powerutils locally and check the installation
-3.1. $ pip3 install -e .
-3.2. $ python3 -c "import powerutils; help(powerutils)"
-3.3. The last command should show general information of the module
-3.4. Exit help() by typing "q" (without the quotation marks)
+(OPTIONAL) Create a Python3 virtual environment and activate it::
+
+    python3 -m venv venv_powerutils
+    source venv_powerutils/bin/activate
+
+Install powerutils locally and check the installation::
+
+    pip3 install -e .
+    python3 -c "import powerutils; help(powerutils)"
+
+The last command should show general information of the module. Exit help() by typing "q" (without the quotation marks)
 
 Requirements
 ^^^^^^^^^^^^
