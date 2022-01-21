@@ -271,10 +271,10 @@ def test_zcu102():
     assert True, "power measurement passed"
 
 def test_tinyML():
-    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=5)
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=0, range_index=3)
 
     #print(pm.__dict__)
-    test_kwargs = {"hardware": "tinyML_5Vbipol"}
+    test_kwargs = {"hardware": "tinyML_range3"}
 
     pm.start_gather(test_kwargs)
 

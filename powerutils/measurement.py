@@ -13,14 +13,15 @@ except:
 
 
 class power_measurement():
-    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60, port=0):
+    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60, port=0, range_index=1):
         """Function for initializing default values for the DAQ-Device
 
         Args:
-            sampling_rate: sampling rate in samples per second, maximum is 500000
-            data_dir: name of the directory where the data files will be stored
-            max_duration: maximal duration of the measurement in seconds
-            port: set the measurement channel to port (default=0)
+            int: sampling_rate: sampling rate in samples per second, maximum is 500000
+            str: data_dir: name of the directory where the data files will be stored
+            int: max_duration: maximal duration of the measurement in seconds
+            int: port: set the measurement channel to port (default=0)
+            int: range_index: 0 - <Range.BIP10VOLTS, 1- <Range.BIP5VOLTS>, 2 - <Range.BIP2VOLTS>, 3 - <Range.BIP1VOLTS>
         """
         self.dev_init = False
         if uldaq_import:
@@ -33,7 +34,8 @@ class power_measurement():
             self.status = ScanStatus.IDLE
             self.data_dir = data_dir
 
-            self.range_index = 0
+            if not range_index < 0:
+                self.range_index = range_index
             self.low_channel = port
             self.high_channel = port
             self.scan_options = ScanOption.CONTINUOUS
@@ -124,9 +126,14 @@ class power_measurement():
 
         # Get a list of supported ranges and validate the range index.
         ranges = ai_info.get_ranges(self.input_mode)
+        print("Available measurement ranges are:")
+        for i in range(len(ranges)):
+            print(i, ranges[i])
+
         if self.range_index >= len(ranges):
-            range_index = len(ranges) - 1
-        self.meas_range = ranges[1] # ranges[1] = Range.BIP5VOLTS
+            range_index = len(ranges) - 1 # set range_index to the last value in the list, if it is longer than list
+        # ranges contains [<Range.BIP10VOLTS: 5>, <Range.BIP5VOLTS: 6>, <Range.BIP2VOLTS: 9>, <Range.BIP1VOLTS: 11>] for USB-1608GX
+        self.meas_range = ranges[self.range_index]
 
         # Allocate a buffer to receive the data.
         self.data = create_float_buffer(channel_count, self.total_samples)
