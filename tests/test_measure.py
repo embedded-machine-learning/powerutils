@@ -1,10 +1,10 @@
 # port 0 - NCS2
-# port 1 - Jetson TX2
+# port 1 - Jetson Xavier
 # port 2 - Edge TPU
 # port 3 - ZCU102
 # port 4 - Raspberry Pi 4
 # port 5 - TinyML platforms
-# future ports reserved for: Jetson Xavier, Jetson Nano, Pybadge, Raspberry Pi
+# port 6 - Jetson Nano
 
 from powerutils import measurement
 import time, os, paramiko
@@ -271,10 +271,10 @@ def test_zcu102():
     assert True, "power measurement passed"
 
 def test_tinyML():
-    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=0, range_index=3)
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=5, range_index=-1)
 
     #print(pm.__dict__)
-    test_kwargs = {"hardware": "tinyML_range3"}
+    test_kwargs = {"hardware": "tinyML_blackpill"}
 
     pm.start_gather(test_kwargs)
 
@@ -286,6 +286,44 @@ def test_tinyML():
         print("sleeping loop exited")
 
     pm.end_gather(True) # stop the power measurement
+
+    assert True, "power measurement passed"
+
+def test_xavier():
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=1, range_index=-1)
+
+    # print(pm.__dict__)
+    test_kwargs = {"hardware": "test_xavier"}
+
+    pm.start_gather(test_kwargs)
+
+    try:
+        for i in range(300):
+            time.sleep(1)
+            print("seconds elapsed:", i, flush=True, end="\r")
+    except KeyboardInterrupt:
+        print("sleeping loop exited")
+
+    pm.end_gather(True)  # stop the power measurement
+
+    assert True, "power measurement passed"
+
+def test_nano():
+    pm = measurement.power_measurement(sampling_rate=500000, data_dir="./tmp", max_duration=60, port=6, range_index=-1)
+
+    # print(pm.__dict__)
+    test_kwargs = {"hardware": "test_nano"}
+
+    pm.start_gather(test_kwargs)
+
+    try:
+        for i in range(300):
+            time.sleep(1)
+            print("seconds elapsed:", i, flush=True, end="\r")
+    except KeyboardInterrupt:
+        print("sleeping loop exited")
+
+    pm.end_gather(True)  # stop the power measurement
 
     assert True, "power measurement passed"
 
@@ -302,6 +340,8 @@ def main():
     #test_zcu102()
     #test_rpi4()
     test_tinyML()
+    #test_xavier()
+    #test_nano()
 
 if __name__ == "__main__":
     # run main

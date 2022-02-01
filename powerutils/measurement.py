@@ -1,4 +1,3 @@
-# this file will contain a class, where all the attributes needed to setup the daq card and run measurements will be placed
 import threading, os
 import numpy as np
 
@@ -13,7 +12,7 @@ except:
 
 
 class power_measurement():
-    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60, port=0, range_index=1):
+    def __init__(self, sampling_rate=500000, data_dir = "data_dir", max_duration = 60, port=0, range_index=-1):
         """Function for initializing default values for the DAQ-Device
 
         Args:
@@ -34,8 +33,7 @@ class power_measurement():
             self.status = ScanStatus.IDLE
             self.data_dir = data_dir
 
-            if not range_index < 0:
-                self.range_index = range_index
+            self.range_index = range_index
             self.low_channel = port
             self.high_channel = port
             self.scan_options = ScanOption.CONTINUOUS
