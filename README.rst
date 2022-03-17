@@ -23,10 +23,12 @@ Instantiation in code::
     from powerutils import measurement
 
     # create instance of class
-    pm = measurement.power_measurement(sampling_rate=500000, # set the sampling rate to whatever your device supports
-                                        data_dir = "./tmp", # pass the folder where data files will be saved
-                                        max_duration=60, # set the maximal duration of the gathering process [seconds]
-                                        port=0) # if your device has more than one port, choose the current port
+    pm = measurement.power_measurement(
+        sampling_rate=500000, # set the sampling rate to whatever your device supports
+        data_dir = "./tmp", # pass the folder where data files will be saved
+        max_duration=60, # set the maximal duration of the gathering process [seconds]
+        port=0, # if your DAQ device has more than one port, choose the port where the DUT is connected to
+        range_index=3) # choose a measurement resolution from available ranges (the higher, the more accurate)
 
     # define parameters for the name of the data file
     test_kwargs = {"model_name" : "awesome_model", "index_run" : 1, "my_parameter" : "some_value"}
