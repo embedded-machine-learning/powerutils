@@ -154,7 +154,7 @@ class power_measurement():
         index = 0
         while not self.bench_end:
             # Get the status of the background operation
-            status, transfer_status = ai_device.get_scan_status()
+            self.status, transfer_status = ai_device.get_scan_status()
             # get current index
             index = transfer_status.current_index
 
@@ -170,7 +170,7 @@ class power_measurement():
         # Stop the acquisition if it is still running, disconnect
         print("Releasing the device handle")
         if self.daq_device:
-            if status == ScanStatus.RUNNING:
+            if self.status == ScanStatus.RUNNING:
                 ai_device.scan_stop()
             if self.daq_device.is_connected():
                 self.daq_device.disconnect()
